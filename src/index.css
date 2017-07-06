@@ -13,9 +13,6 @@ ol, ul {
   display: table;
 }
 
-.status {
-  margin-bottom: 10px;
-}
 
 .square {
   background: #fff;
@@ -43,8 +40,4 @@ ol, ul {
 .game {
   display: flex;
   flex-direction: row;
-}
-
-.game-info {
-  margin-left: 20px;
 }
