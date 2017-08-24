@@ -1,12 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import style from './style.css';
 
-const sideLength = 30;
+const sideLength = 20;
+
+
 
 function Square(props) {
   return (
-    <button className="square" onClick={props.onClick}>
+    <button className={style.square} onClick={props.onClick}>
       {props.value}
     </button>
   );
@@ -39,9 +41,8 @@ class Board extends React.Component {
 
   render() {
     const status = 'Treasure Hunt';
-    //const ele = (x) => x.map((square) => (square == treasure) ? this.renderSquare(square, true) : this.renderSquare(square, false));
     const ele = (x) => x.map((square) => this.renderSquare(square));
-    const rows = this.renderHelper().map((row) => <div className = "board-row"> {ele(row)} </div>);
+    const rows = this.renderHelper().map((row) => <div className={style.boardRow}> {ele(row)} </div>);
 
     return (
       <div>
@@ -59,7 +60,8 @@ class Game extends React.Component {
     let col = Math.floor(Math.random()*sideLength);
     this.state = {
           squares: this.createSquares(),
-          treasure: [row, col]
+          treasure: [row, col],
+          winner: ''
       }
     };
 
@@ -78,28 +80,28 @@ class Game extends React.Component {
    let row = square[0];
    let col = square[1];
    squares[(row*sideLength + col)][2] = getDir(row, col, this.state.treasure);
-   //alert(squares[(i*10 + j)]);
    this.setState({
      squares: squares
    });
 
    if (row === this.state.treasure[0] && col === this.state.treasure[1]){
-     alert("WINNER!!");
+    this.setState({
+      winner: 'WINNER!!'
+    })
    }
  }
 
   render() {
     return (
-      <div className="game">
-        <div className="game-board">
+      <div className={style.game}>
+        <div className={style.gameInfo}>
+          <h1>{this.state.winner}</h1>
+        </div>
+        <div className={style.gameBoard}>
           <Board
             squares={this.state.squares}
             onClick={square => this.handleClick(square)}
           />
-        </div>
-        <div className="game-info">
-          <div>{/* status */}</div>
-          <ol>{/* TODO */}</ol>
         </div>
       </div>
     );
@@ -108,10 +110,6 @@ class Game extends React.Component {
 
 // ========================================
 
-ReactDOM.render(
-  <Game />,
-  document.getElementById('root')
-);
 
 function getDir(row, col, [trow, tcol]){
   let possible = [];
@@ -136,3 +134,8 @@ function getDir(row, col, [trow, tcol]){
   let index = Math.floor(Math.random()*possible.length);
   return possible[index];
 }
+
+ReactDOM.render((
+    <Game />
+  ), document.getElementById('app')
+);
