@@ -68,7 +68,10 @@ const config = {
       }
     ]
   },
-  devServer: {inline: true},
+  devServer: {
+    inline: true,
+    disableHostCheck: true
+  },
   resolve: {
     extensions: ['.js', '.jsx']
   }
